@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 import "./estilo.css"
 
 export default class FormularioCadastro extends Component{
@@ -9,8 +10,18 @@ export default class FormularioCadastro extends Component{
     this.titulo="";
     this.texto="";
     this.categoria="Sem Categoria";
+    this.state = {categorias : []}
+    
+  }
+  
+  componentDidMount(){
+    this.props.categorias.inscrever(this._novasCategorias.bind(this))
   }
 
+  _novasCategorias(categorias){
+    this.setState({...this.state, categorias})
+  }
+  
   _handleMudaCategoria(evento){
     evento.stopPropagation();
     this.categoria = (evento.target.value)
@@ -38,8 +49,8 @@ export default class FormularioCadastro extends Component{
         onSubmit={this._criarNota.bind(this)}>
           <select onChange={this._handleMudaCategoria.bind(this)}className='form-cadastro_input'>
             <option>Sem Categoria</option>
-            {this.props.categorias.map(categoria =>{
-              return <option>{categoria}</option>
+            {this.state.categorias.map((categoria, index)=>{
+              return < option key={index}>{categoria}</option>
             })}
           </select>
         <input 
